@@ -1,0 +1,24 @@
+services:
+  comfyui:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    container_name: comfyui-nvidia
+    entrypoint: 
+      - python 
+      - main.py 
+      - --listen
+    ports:
+      - 8188:8188
+    volumes:
+      - ./base:/comfy/base
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities:
+                - gpu
+                - compute
+                - utility
